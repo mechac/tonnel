@@ -137,9 +137,8 @@
                     cartCount.style.transform = 'scale(1)';
                 }, 300);
                 
-                const goldAmount = this.parentElement.querySelector('.gold-amount').textContent;
+                const goldAmount = this.parentElement.querySelector('.gold-amount');
                 const price = this.textContent;
-                alert(`Товар "${goldAmount}" добавлен в корзину за ${price}`);
             });
         });
 
