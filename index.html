@@ -1,227 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tonnel App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: #132028;
-            --dark-accent: #0a1a2e;
-            --primary: #1a73e8;
-            --accent: #4fc3f7;
-            --text-light: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-light);
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .app-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .image-wrapper {
-            width: 85%;
-            max-width: 400px;
-            margin: 0 auto;
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transform: scale(0.95);
-            opacity: 0;
-            animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .centered-image {
-            width: 100%;
-            display: block;
-            border-radius: 16px;
-        }
-        
-        .loading-container {
-            width: 85%;
-            max-width: 400px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            margin-top: 25px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .loading-bar {
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 2px;
-            animation: loading 2.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-            position: relative;
-        }
-        
-        .loading-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                            transparent, 
-                            rgba(255, 255, 255, 0.3), 
-                            transparent);
-            animation: shimmer 2s infinite;
-        }
-        
-        .message-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.5s ease-out;
-        }
-        
-        .message-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .message-card {
-            background: var(--dark-accent);
-            color: white;
-            width: 85%;
-            max-width: 320px;
-            padding: 25px;
-            border-radius: 18px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .message-overlay.active .message-card {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .message-icon {
-            font-size: 40px;
-            margin-bottom: 18px;
-            color: var(--accent);
-            display: inline-block;
-            animation: pulse 2s infinite;
-        }
-        
-        .message-title {
-            font-size: 19px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-        
-        .message-subtitle {
-            font-size: 14px;
-            opacity: 0.8;
-            line-height: 1.5;
-            color: var(--text-secondary);
-        }
-        
-        @keyframes scaleIn {
-            0% { transform: scale(0.95); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes loading {
-            0% { width: 0; }
-            100% { width: 100%; }
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+    <title>Магазин | Standoff 2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <base target="_blank">
 </head>
 <body>
-    <div class="app-container">
-        <div class="image-wrapper">
-            <img src="https://static23.tgcnt.ru/posts/_0/c0/c0a7a07cc58960d9a92066dc93ab14cc.jpg" 
-                 alt="Tonnel App" 
-                 class="centered-image">
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-placeholder">
+                        <span style="color: #ffffff;">STAND</span>
+                        <span style="color: rgb(255, 0, 0);">OFF 2</span>
+                    </span>
+                </div>
+            </div>
+            <div class="user-icon">
+                <i class="fas fa-user"></i>
+            </div>
+        </header>
+
+        <!-- Навигационные табы -->
+        <div class="nav-tabs">
+            <div class="tab-slider" style="width: 158px; left: 194px;"></div>
+            <button class="tab active">АКЦИИ</button>
+            <button class="tab">GOLD</button>
         </div>
-        
-        <div class="loading-container">
-            <div class="loading-bar"></div>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            
+            <div class="gold-grid">
+                <div class="gold-card">
+                    <div class="gold-card-bg card-100"></div>
+                    <div class="gold-info">
+                        <button class="buy-button">119 ₽</button>
+                    </div>
+                </div>
+
+                <div class="gold-card">
+                    <div class="discount-badge">-15%</div>
+                    <div class="gold-card-bg card-500"></div>
+                    <div class="gold-info">
+                        <button class="buy-button">499 ₽</button>
+                    </div>
+                </div>
+
+                <div class="gold-card">
+                    <div class="discount-badge">-25%</div>
+                    <div class="gold-card-bg card-1000"></div>
+                    <div class="gold-info">
+                        <button class="buy-button">899 ₽</button>
+                    </div>
+                </div>
+
+                <div class="gold-card">
+                    <div class="discount-badge">-45%</div>
+                    <div class="gold-card-bg card-3000"></div>
+                    <div class="gold-info">
+                        <button class="buy-button">1 999 ₽</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <div class="footer-logo">
+                <svg viewBox="0 0 212 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="white" fill-opacity="0.3">
+                        <path d="M67.158.463h-4.321v27.042h4.32zM9.99.463.438 27.505h4.517L14.344.934l5.244 14.852H9.095l2.467 3.765h9.36l2.81 7.954h4.514L18.693.463zM59.094.463h-5.663l-9.125 10.009h5.387z"></path>
+                        <path d="m29.518.463 12.31 13.108-13.065 13.934h5.662l9.877-10.832 9.877 10.832h5.662L35.181.463zM67.161 27.505h15.482v-3.72H71.769zM188.595.463v3.692h9.54v23.354h4.325V4.155H212V.463zM154.541 0c-8.333 0-14.406 6.213-14.406 13.926 0 7.714 6.028 14.057 14.456 14.05 8.428-.008 14.361-6.405 14.361-14S162.998 0 154.541 0m.037 24.142c-6.155 0-9.971-4.764-9.971-10.166s3.849-10.162 9.98-10.162c6.13 0 9.95 4.687 9.954 10.162s-3.799 10.173-9.963 10.166M177.918.463h-4.3v27.046h19.191v-3.692h-14.891zM132.589 13.712c2.249-1.354 3.39-3.42 3.39-6.121 0-5.98-5.745-7.17-11.01-7.17h-11.522v27.107h12.934a24.7 24.7 0 0 0 4.341-.26c4.075-.575 6.479-3.674 6.475-7.27 0-2.965-1.592-5.07-4.608-6.286m-14.854-9.63h7.755c2.733 0 5.942.505 5.942 3.864 0 2.484-1.736 4.09-4.538 4.09h-9.159zm13.348 18.747c-1.095.934-3.151.98-4.591.984h-8.757v-8.15h9.721c3.406 0 5.207 1.393 5.207 3.983a3.55 3.55 0 0 1-.361 1.771 3.8 3.8 0 0 1-1.202 1.412zM106.832 15.617v-3.68l-16.713.004 4.559 3.676z"></path>
+                        <path d="M85.799 27.505h22.264v-3.72H90.12V4.182h17.943V.464H85.799z"></path>
+                    </g>
+                </svg>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-vk"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-text">
+                <p>© 2025 Axlebolt ME FZ-LLC All rights reserved. 16+</p>
+                <div class="footer-links">
+                    <a href="#">Публичная оферта</a> и <a href="#">Политика конфиденциальности</a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Нижняя навигация -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <img src="https://web-static.cdn.boltgaming.io/store2/navbarIcons/home.svg" alt="Home" class="nav-icon">
+            </a>
+            
+            <a href="#" class="nav-item" id="promoBtn">
+                <img src="https://web-static.cdn.boltgaming.io/store2/navbarIcons/PROMOCODE.svg" alt="Promo" class="nav-icon">
+            </a>
+            
+            <a href="#" class="nav-item cart-item">
+                <div class="cart-count">0</div>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34' fill='white'%3E%3Cg clip-path='url(%23a)'%3E%3Cpath d='M9.917 25.5a2.83 2.83 0 0 0-2.82 2.833 2.83 2.83 0 0 0 2.82 2.834 2.84 2.84 0 0 0 2.833-2.834A2.84 2.84 0 0 0 9.917 25.5m-8.5-22.667v2.834H4.25l5.1 10.752-1.913 3.471a2.74 2.74 0 0 0-.354 1.36 2.84 2.84 0 0 0 2.834 2.833h17V21.25H10.512a.35.35 0 0 1-.354-.354l.042-.17 1.275-2.31h10.554a2.82 2.82 0 0 0 2.48-1.459l5.071-9.194c.113-.198.17-.439.17-.68a1.42 1.42 0 0 0-1.417-1.416H7.381L6.049 2.833zM24.083 25.5a2.83 2.83 0 0 0-2.819 2.833 2.83 2.83 0 0 0 2.82 2.834 2.84 2.84 0 0 0 2.833-2.834 2.84 2.84 0 0 0-2.834-2.833'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath d='M0 0h34v34H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E" alt="Cart" class="nav-icon">
+            </a>
+            
+            <button class="nav-item burger-menu">
+                <div class="burger-lines">
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                </div>
+
+            </button>
+        </nav>
+
+        <div id="toast" class="toast">
+            <div class="toast-content">
+                <i class="fas fa-check-circle toast-icon"></i>
+                <span id="toastMessage"></span>
+                <button class="toast-close" onclick="hideToast()">Закрыть
+                </button>
+            </div>
         </div>
+
     </div>
-    
-    <div class="message-overlay" id="messageOverlay">
-        <div class="message-card">
-            <div class="message-icon">⛔</div>
-            <h2 class="message-title">Отказано в доступе</h2>
-            <p class="message-subtitle">Подключите бота к себе в настройках</p>
+
+    <!-- Модальное окно для выбора награды (при загрузке) -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Выберите награду</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            
+            <div id="rewardSelection">
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 12px;">Выберите награду:</p>
+                <div class="gold-item" data-gold="100">
+                    <span>100 Голды</span>
+                </div>
+                <div class="gold-item" data-gold="500">
+                    <span>500 Голды</span>
+                </div>
+                <div class="gold-item" data-gold="1000">
+                    <span>1000 Голды</span>
+                </div>
+                <div class="gold-item" data-gold="3000">
+                    <span>3000 Голды</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        
-        // Показываем сообщение после загрузки
-        setTimeout(() => {
-            document.getElementById('messageOverlay').classList.add('active');
-        }, 2500);
-        
-        // Показываем сообщение при клике
-        document.addEventListener('click', () => {
-            document.getElementById('messageOverlay').classList.add('active');
-        });
-        
-        tg.ready();
-        tg.expand();
-    </script>
+    <!-- Bottom Sheet для ввода промокода -->
+    <div class="bottom-sheet-overlay" id="bottomSheetOverlay"></div>
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="drag-indicator-wrap">
+            <div class="drag-indicator"></div>
+        </div>
+        <div class="bottom-sheet-content">
+            <div class="bottom-sheet-header">
+                <h3 class="bottom-sheet-title">Активировать промокод</h3>
+                <button class="close-bottom-sheet" id="closeBottomSheet">&times;</button>
+            </div>
+            <form class="promo-form" id="promoForm">
+                <div class="promo-input-wrapper">
+                    <input type="text" id="promoCodeInput" class="promo-input" placeholder="Введите промокод" maxlength="50">
+                </div>
+                <button type="submit" class="promo-submit-btn" id="promoSubmitBtn" disabled>Применить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
